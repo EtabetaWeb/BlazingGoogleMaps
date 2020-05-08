@@ -1,0 +1,99 @@
+﻿@page "/cercaindirizzo"
+
+<!-- CODEPOINT:03 istruzioni using -->
+@using GoogleMapsComponents
+@using GoogleMapsComponents.Maps
+@using GoogleMapsComponents.Maps.Places
+
+<h1>Blazing Code: cerca indirizzo</h1>
+
+<!-- CODEPOINT:04 box di ricerca -->
+<div style="margin-bottom: 10px;">
+    <input type="text" @ref="this.searchBox" id="searchBox" />
+    <button @onclick="Search">Cerca</button>
+</div>
+<div>
+    <p style="font-weight: bold; font-size: 1.2em">@this.message</p>
+</div>
+
+<!-- CODEPOINT:05 mappa di Google -->
+<GoogleMap @ref="@(this.map1)" Id="map1" Options="@(this.mapOptions)" OnAfterInit="async () => await OnAfterMapInit()"></GoogleMap>
+
+@functions {
+
+    ///<!--  CODEPOINT:06 variabili locali -->
+    private readonly Stack<Marker> markers = new Stack<Marker>();
+
+    private GoogleMap map1;
+    private MapOptions mapOptions;
+    private Autocomplete autocomplete;
+
+    private string message;
+
+    private ElementReference searchBox;
+
+    ///<!-- CODEPOINT:07 metodo OnInitialized -->
+    protected override void OnInitialized()
+    {
+        this.mapOptions = new MapOptions
+        {
+            Zoom = 5,
+            Center = new LatLngLiteral
+            {
+                Lat = 43.034126,
+                Lng = 12.037817
+            },
+            MapTypeId = MapTypeId.Roadmap
+        };
+    }
+
+    ///<!-- CODEPOINT:08 metodo OnAfterMapInit -->
+    private async Task OnAfterMapInit()
+    {
+        this.autocomplete = await Autocomplete.CreateAsync(this.map1.JsRuntime, this.searchBox, new AutocompleteOptions
+        {
+            StrictBounds = false
+        });
+
+        await this.autocomplete.SetFields(new[] { "address_components", "geometry", "name" });
+
+        await this.autocomplete.AddListener("place_changed", async () =>
+        {
+            var place = await this.autocomplete.GetPlace();
+
+            if (place?.Geometry == null)
+            {
+                this.message = "L'indirizzo " + place?.Name + " non è stato trovato!";
+            }
+            else if (place.Geometry.Location != null)
+            {
+                await this.map1.InteropObject.SetCenter(place.Geometry.Location);
+                await this.map1.InteropObject.SetZoom(13);
+
+                var marker = await Marker.CreateAsync(this.map1.JsRuntime, new MarkerOptions
+                {
+                    Position = place.Geometry.Location,
+                    Map = this.map1.InteropObject,
+                    Title = place.Name
+                });
+
+                this.markers.Push(marker);
+
+                this.message = "Risultati trovati per " + place.Name;
+            }
+            else if (place.Geometry.Viewport != null)
+            {
+                await this.map1.InteropObject.FitBounds(place.Geometry.Viewport, 5);
+                this.message = "Risultati trovati per " + place.Name;
+            }
+
+            this.StateHasChanged();
+        });
+    }
+
+    ///<!-- CODEPOINT:09 metodo Search -->
+    private void Search()
+    {
+
+    }
+}
