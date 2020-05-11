@@ -21,7 +21,7 @@
 
 @functions {
 
-    ///<!--  CODEPOINT:06 variabili locali -->
+    //<!-- CODEPOINT:06 variabili locali -->
     private readonly Stack<Marker> markers = new Stack<Marker>();
 
     private GoogleMap map1;
@@ -32,7 +32,7 @@
 
     private ElementReference searchBox;
 
-    ///<!-- CODEPOINT:07 metodo OnInitialized -->
+    //<!-- CODEPOINT:07 metodo OnInitialized -->
     protected override void OnInitialized()
     {
         this.mapOptions = new MapOptions
@@ -47,7 +47,7 @@
         };
     }
 
-    ///<!-- CODEPOINT:08 metodo OnAfterMapInit -->
+    //<!-- CODEPOINT:08 metodo OnAfterMapInit -->
     private async Task OnAfterMapInit()
     {
         this.autocomplete = await Autocomplete.CreateAsync(this.map1.JsRuntime, this.searchBox, new AutocompleteOptions
@@ -91,7 +91,7 @@
         });
     }
 
-    ///<!-- CODEPOINT:09 metodo Search -->
+    //<!-- CODEPOINT:09 metodo Search -->
     private void Search()
     {
 
