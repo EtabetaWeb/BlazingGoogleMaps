@@ -1,6 +1,6 @@
 ## Benvenuto in Blazing Google Maps!
 
-Blazing Google Maps fa parte del progetto **[Blazing Code](https://etabetaweb.github.io/BlazingCode/)** per imparare con l'aiuto dei tutorial a sviluppare applicazioni web con ASP.NET Core.
+Blazing Google Maps fa parte del progetto **[Blazing Code](https://etabetaweb.github.io/BlazingCode/)**: i tutorial per sviluppare applicazioni web con ASP.NET Core.
 
 ### Come funziona
 
