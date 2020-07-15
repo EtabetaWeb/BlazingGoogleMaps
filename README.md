@@ -4,7 +4,7 @@ Blazing Google Maps fa parte del progetto **[Blazing Code](https://etabetaweb.gi
 
 ### Come funziona
 
-Leggi il ![tutorial](https://github.com/EtabetaWeb/BlazingGoogleMaps/blob/master/TUTORIAL.md) e segui passo passo lo sviluppo del codice.
+Scarica il codice e leggi il [tutorial](https://github.com/EtabetaWeb/BlazingGoogleMaps/blob/master/TUTORIAL.md) e segui passo passo lo sviluppo del codice.
 
 Ogni repository è composto da due cartelle:
 
